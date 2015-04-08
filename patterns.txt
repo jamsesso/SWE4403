@@ -1,0 +1,14 @@
+Singleton
+  - Logger
+Builder
+  - MenuBarBuilder
+  - DocumentBuilder
+Factory method
+  - Window
+Observer
+  - Logger
+  - StatusBar
+Decorator
+  - Opening/Closing/SelfClosing HtmlTagDecorator
+Composite
+  - TextComponent/TextComposite/TextItem/TabItem/NewLineItem
