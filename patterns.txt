@@ -1,14 +1,25 @@
-Singleton
+1. Singleton
   - Logger
-Builder
+  - DocumentValidator
+2. Builder
   - MenuBarBuilder
   - DocumentBuilder
-Factory method
+3. Factory method
   - Window
-Observer
+4. Observer
   - Logger
   - StatusBar
-Decorator
+5. Decorator
   - Opening/Closing/SelfClosing HtmlTagDecorator
-Composite
-  - TextComponent/TextComposite/TextItem/TabItem/NewLineItem
+6. Composite
+  - TextComponent/TextComposite/TextItem
+7. Proxy
+  - ProxyPolicy
+  - TextItemProtectionProxy
+8. Command
+  - Command interface
+  - NewFile/OpenFile/Quit/SaveAsFile/SaveFile Command.
+9.
+10.
+11.
+12.

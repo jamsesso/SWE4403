@@ -12,7 +12,10 @@ public class DocumentEditor {
     Window window = new EditorWindow();
     window.setVisible(true);
 
-    String document = "";
+    String document = "<html>" +
+      "hi <b><i>Kristin!</b></i>" +
+      "<p>How are you?</p>" +
+      "</html>";
 
     DocumentBuilder builder = new DocumentBuilder();
 
@@ -24,9 +27,10 @@ public class DocumentEditor {
 
     try {
       result = builder.getResult();
+      System.out.println(result.toString());
     }
     catch(HtmlTagMismatchException e) {
-      e.printStackTrace();
+      System.out.println("Invalid HTML document.");
     }
   }
 }

@@ -1,6 +1,5 @@
 package application;
 
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -19,7 +18,7 @@ public class DocumentBuilder {
     if(c == '<' && !bufferCaptureTag) {
       if(buffer.size() > 0) {
         String text = listToString(buffer);
-        TextComponent component = new TextItem(text);
+        TextComponent component = new TextItemProtectionProxy(text, ProxyPolicy.READ_ONLY);
 
         currentRoot.addChild(currentRoot.numChildren(), component);
         buffer.clear();
@@ -72,7 +71,7 @@ public class DocumentBuilder {
     return root;
   }
 
-  private <T> String listToString(List<T> list) {
+  private <T> String listToString(Iterable<T> list) {
     StringBuilder builder = new StringBuilder();
 
     for(T item : list) {

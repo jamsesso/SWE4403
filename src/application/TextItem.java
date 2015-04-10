@@ -11,4 +11,9 @@ public class TextItem extends TextComponent {
   public String toString() {
     return word;
   }
+
+  @Override
+  public void setWord(String word) {
+    this.word = word;
+  }
 }

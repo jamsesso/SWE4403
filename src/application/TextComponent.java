@@ -11,6 +11,10 @@ abstract public class TextComponent {
   @Override
   abstract public String toString();
 
+  public void setWord(String word) {
+    // Nothing to do.
+  }
+
   public void addChild(Integer index, TextComponent textComponent) {
     // Nothing to do.
   }
