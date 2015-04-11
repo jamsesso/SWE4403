@@ -9,4 +9,9 @@ public class ClosingHtmlTagDecorator extends TextItemDecorator {
   protected String decorate() {
     return "</" + component.toString() + ">";
   }
+
+  @Override
+  public void accept(HtmlTreeVisitor visitor) {
+    visitor.visitHtmlClosingTag(this);
+  }
 }

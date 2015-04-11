@@ -1,14 +1,17 @@
 package swe4403.project.view.window;
 
+import swe4403.project.backend.DocumentModelFacade;
 import swe4403.project.backend.Logger;
-import swe4403.project.view.component.EditorStatusBar;
-import swe4403.project.view.component.MenuBarBuilder;
+import swe4403.project.view.component.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class EditorWindow extends Window {
   private static final Logger logger = Logger.getInstance();
+
+  private DocumentModelFacade documentModel = new DocumentModelFacade();
 
   public EditorWindow() {
     super("HTML Editor");
@@ -23,7 +26,7 @@ public class EditorWindow extends Window {
     menuBarBuilder
       .addMenu("File")
       .addItem("New")
-      .addItem("Open...")
+      .addItem("Open...", new OpenFileCommand(this, documentModel), KeyEvent.VK_O)
       .addItem("Save")
       .addItem("Save As...")
       .addItem("Quit")
@@ -31,21 +34,23 @@ public class EditorWindow extends Window {
       .addItem("Copy")
       .addItem("Cut")
       .addItem("Paste")
-      .addItem("Undo")
-      .addItem("Redo")
+      .addItem("Undo", new UndoCommand(documentModel), KeyEvent.VK_Z)
+      .addItem("Redo", new RedoCommand(documentModel), KeyEvent.VK_Y)
       .addMenu("View")
-      .addItem("Increase Font Size")
-      .addItem("Decrease Font Size");
+      .addItem("Show HTML Tags")
+      .addItem("Hide HTML Tags");
 
     setJMenuBar(menuBarBuilder.getResult());
 
     // Set up the editor.
-    JTextPane textPane = new JTextPane();
+    JTextPane textPane = new TextEditorPane(documentModel);
+    JScrollPane scrollTextEditor = new JScrollPane(textPane);
+    getContentPane().add(scrollTextEditor, BorderLayout.CENTER);
   }
 
   @Override
   protected Dimension createWindowSizeDimension() {
-    return new Dimension(300, 300);
+    return new Dimension(650, 550);
   }
 
   @Override

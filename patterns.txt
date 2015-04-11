@@ -7,8 +7,10 @@
 3. Factory method
   - Window
 4. Observer
-  - Logger
-  - StatusBar
+  - Logger (Subject)
+  - StatusBar (Observer)
+  - DocumentModelFacade (Subject)
+  - TextEditorPane (Observer)
 5. Decorator
   - Opening/Closing/SelfClosing HtmlTagDecorator
 6. Composite
@@ -24,5 +26,10 @@
 10. Iterator
   - Iterator
   - HtmlDocumentTreeIterator
-11.
-12.
+11. Memento
+  - DocumentMemento
+  - DocumentModelFacade (Caretaker)
+12. Visitor
+  - HtmlTreeVisitor (Visitor)
+  - ReadOnlyTextItemVisitor (Concrete visitor)
+  - TextComponent (Element)

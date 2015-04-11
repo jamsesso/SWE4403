@@ -1,6 +1,5 @@
 package swe4403.project.backend;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DocumentValidator {
@@ -86,22 +85,15 @@ public class DocumentValidator {
   }
 
   private List<TextComponent> getReadOnlyComponents(TextComponent root) {
-    List<TextComponent> result = new ArrayList<TextComponent>();
     Iterator<TextComponent> rootIterator = new HtmlTreeIterator(root);
+    ReadOnlyTextItemVisitor visitor = new ReadOnlyTextItemVisitor();
 
     // Find all of the plaintext elements in the original document.
     for(rootIterator.first(); !rootIterator.isDone(); rootIterator.next()) {
       TextComponent currentItem = rootIterator.currentItem();
-
-      if(currentItem instanceof TextItemProtectionProxy) {
-        TextItemProtectionProxy protectedText = (TextItemProtectionProxy) currentItem;
-
-        if(protectedText.getPolicy().equals(ProxyPolicy.READ_ONLY)) {
-          result.add(currentItem);
-        }
-      }
+      currentItem.accept(visitor);
     }
 
-    return result;
+    return visitor.getVisitedElements();
   }
 }

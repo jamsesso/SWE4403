@@ -42,4 +42,9 @@ public class TextComposite extends TextComponent {
   public Integer numChildren() {
     return children.size();
   }
+
+  @Override
+  public void accept(HtmlTreeVisitor visitor) {
+    visitor.visitTextComposite(this);
+  }
 }

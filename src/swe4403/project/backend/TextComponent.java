@@ -9,6 +9,8 @@ abstract public class TextComponent {
   @Override
   abstract public String toString();
 
+  abstract public void accept(HtmlTreeVisitor visitor);
+
   public void setWord(String word) {
     // Nothing to do.
   }

@@ -26,6 +26,11 @@ public class TextItemProtectionProxy extends TextItem {
     super.setWord(word);
   }
 
+  @Override
+  public void accept(HtmlTreeVisitor visitor) {
+    visitor.visitProxyProtectedTextItem(this);
+  }
+
   public ProxyPolicy getPolicy() {
     return policy;
   }

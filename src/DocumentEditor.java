@@ -9,7 +9,9 @@ public class DocumentEditor {
     Window window = new EditorWindow();
     window.setVisible(true);
 
-    String document1 = "<html>" +
+    DocumentModelFacade model = new DocumentModelFacade();
+
+    /*String document1 = "<html>" +
       "hi <b><i>Kristin!</i></b>" +
       "<p>How are you?</p>" +
       "</html>";
@@ -47,6 +49,6 @@ public class DocumentEditor {
       if(validator.hasChangedText(result1, result2)) {
         System.out.println("ERROR: Document has changed text");
       }
-    }
+    }*/
   }
 }

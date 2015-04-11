@@ -16,4 +16,9 @@ public class TextItem extends TextComponent {
   public void setWord(String word) {
     this.word = word;
   }
+
+  @Override
+  public void accept(HtmlTreeVisitor visitor) {
+    visitor.visitTextItem(this);
+  }
 }
