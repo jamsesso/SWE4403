@@ -50,6 +50,7 @@ public class OpenFileCommand implements Command {
       }
 
       facade.clearEditHistory();
+      facade.setFileSaveLocation(file);
       facade.update(result, true);
     }
     else {

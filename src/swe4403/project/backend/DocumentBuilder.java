@@ -35,9 +35,14 @@ public class DocumentBuilder {
         tag = tag.substring(1);
         TextComponent component = new ClosingHtmlTagDecorator(new TextItem(tag));
 
-        tree.pop();
-        currentRoot = tree.peek();
-        currentRoot.addChild(currentRoot.numChildren(), component);
+        if(!tree.empty()) {
+          tree.pop();
+
+          if(!tree.empty()) {
+            currentRoot = tree.peek();
+            currentRoot.addChild(currentRoot.numChildren(), component);
+          }
+        }
       }
       else if(tag.endsWith("/")) {
         tag = tag.substring(0, tag.length() - 1);
@@ -61,6 +66,10 @@ public class DocumentBuilder {
   }
 
   public TextComponent getResult() throws HtmlTagMismatchException {
+    if(tree.empty()) {
+      throw new HtmlTagMismatchException("No HTML tree to build");
+    }
+
     TextComponent root = tree.pop();
     DocumentValidator validator = DocumentValidator.getInstance();
 

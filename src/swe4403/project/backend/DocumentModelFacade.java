@@ -1,7 +1,7 @@
 package swe4403.project.backend;
 
+import java.io.File;
 import java.util.Observable;
-import java.util.Stack;
 
 public class DocumentModelFacade extends Observable {
   private static final Logger logger = Logger.getInstance();
@@ -9,8 +9,8 @@ public class DocumentModelFacade extends Observable {
   private TextComponent lastDocumentRevision = null;
   private String state;
   private DocumentValidator documentValidator = DocumentValidator.getInstance();
-  private Stack<DocumentMemento> undoStack = new Stack<DocumentMemento>();
-  private Stack<DocumentMemento> redoStack = new Stack<DocumentMemento>();
+  private File saveLocation;
+  private HistoryManager historyManager = new HistoryManager();
 
   public DocumentModelFacade() {
     update("");
@@ -21,9 +21,9 @@ public class DocumentModelFacade extends Observable {
   }
 
   public void update(String pendingDocument) {
-    logger.log(DocumentModelFacade.class, "Updating document: " + pendingDocument);
+    logger.log(DocumentModelFacade.class, "Updating document.");
+    historyManager.save(new DocumentMemento(pendingDocument));
     state = pendingDocument;
-    undoStack.push(new DocumentMemento(state));
   }
 
   public void update(String pendingDocument, Boolean notify) {
@@ -53,17 +53,38 @@ public class DocumentModelFacade extends Observable {
     return state;
   }
 
+  public File getFileSaveLocation() {
+    return saveLocation;
+  }
+
+  public void setFileSaveLocation(File saveLocation) {
+    this.saveLocation = saveLocation;
+  }
+
   public void undo() {
-    logger.log(DocumentModelFacade.class, "Undoing last document edit operation...");
+    DocumentMemento lastState = historyManager.undo();
+
+    if(lastState != null) {
+      logger.log(DocumentModelFacade.class, "Last value: " + lastState.getState());
+      state = lastState.getState();
+      setChanged();
+      notifyObservers();
+    }
   }
 
   public void redo() {
-    logger.log(DocumentModelFacade.class, "Redoing last document edit operation.");
+    DocumentMemento nextState = historyManager.redo();
+
+    if(nextState != null) {
+      logger.log(DocumentModelFacade.class, "Redoing operation");
+      state = nextState.getState();
+      setChanged();
+      notifyObservers();
+    }
   }
 
   public void clearEditHistory() {
-    undoStack.clear();
-    redoStack.clear();
+    lastDocumentRevision = null;
   }
 
   private TextComponent parseDocument(String document) {

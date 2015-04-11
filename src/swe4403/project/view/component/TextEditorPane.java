@@ -4,8 +4,8 @@ import swe4403.project.backend.DocumentModelFacade;
 import swe4403.project.backend.Logger;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,40 +13,41 @@ public class TextEditorPane extends JTextPane implements Observer {
   private static final Logger logger = Logger.getInstance();
 
   private DocumentModelFacade facade;
+  private String lastRecordedContent = null;
 
   public TextEditorPane(DocumentModelFacade facade) {
     this.facade = facade;
     this.facade.addObserver(this);
 
-    getDocument().addDocumentListener(new DocumentChangedListener());
+    addKeyListener(new DocumentChangedListener());
   }
 
   @Override
   public void update(Observable observable, Object o) {
-    setText(facade.getDocumentState());
+    logger.log(TextEditorPane.class, "Editor window is updating.");
+    String previousState = facade.getDocumentState();
+
+    lastRecordedContent = previousState;
+    setText(previousState);
   }
 
-  private class DocumentChangedListener implements DocumentListener {
+  private class DocumentChangedListener implements KeyListener {
     @Override
-    public void insertUpdate(DocumentEvent documentEvent) {
-      logger.log(DocumentChangedListener.class, "Inserted characters");
-      saveChanges();
-    }
+    public void keyTyped(KeyEvent keyEvent) { }
 
     @Override
-    public void removeUpdate(DocumentEvent documentEvent) {
-      logger.log(DocumentChangedListener.class, "Removed characters");
-      saveChanges();
-    }
+    public void keyPressed(KeyEvent keyEvent) { }
 
     @Override
-    public void changedUpdate(DocumentEvent documentEvent) {
-      logger.log(DocumentChangedListener.class, "Changed characters");
-      saveChanges();
-    }
+    public void keyReleased(KeyEvent keyEvent) {
+      if(!keyEvent.isActionKey()) {
+        String content = TextEditorPane.this.getText();
 
-    private void saveChanges() {
-      facade.update(TextEditorPane.this.getText());
+        if(!content.equals(lastRecordedContent)) {
+          lastRecordedContent = content;
+          facade.update(content);
+        }
+      }
     }
   }
 }

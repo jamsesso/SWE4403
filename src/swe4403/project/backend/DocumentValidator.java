@@ -3,6 +3,7 @@ package swe4403.project.backend;
 import java.util.List;
 
 public class DocumentValidator {
+  private static final Logger logger = Logger.getInstance();
   private static DocumentValidator instance;
 
   private DocumentValidator() { }
@@ -66,22 +67,21 @@ public class DocumentValidator {
   public Boolean hasChangedText(TextComponent original, TextComponent compare) {
     List<TextComponent> originalTextComponents = getReadOnlyComponents(original);
     List<TextComponent> pendingTextComponents = getReadOnlyComponents(compare);
+    StringBuilder originalTextBuffer = new StringBuilder();
+    StringBuilder pendingTextBuffer = new StringBuilder();
 
-    // The number of read only text areas should be the same if no new read only text was added.
-    if(originalTextComponents.size() != pendingTextComponents.size()) {
-      return true;
+    for(TextComponent originalText : originalTextComponents) {
+      originalTextBuffer.append(originalText.toString().replaceAll("[^A-Za-z0-9 ]", ""));
     }
 
-    for(Integer i = 0; i < originalTextComponents.size(); i++) {
-      TextComponent originalText = originalTextComponents.get(i);
-      TextComponent newText = pendingTextComponents.get(i);
-
-      if(!originalText.toString().equals(newText.toString())) {
-        return true;
-      }
+    for(TextComponent newText : pendingTextComponents) {
+      pendingTextBuffer.append(newText.toString().replaceAll("[^A-Za-z0-9 ]", ""));
     }
 
-    return false;
+    String originalText = originalTextBuffer.toString();
+    String newText = pendingTextBuffer.toString();
+
+    return !originalText.equals(newText);
   }
 
   private List<TextComponent> getReadOnlyComponents(TextComponent root) {
