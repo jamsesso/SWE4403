@@ -1,9 +1,6 @@
-import application.DocumentBuilder;
-import application.DocumentValidator;
-import application.HtmlTagMismatchException;
-import application.TextComponent;
-import view.window.EditorWindow;
-import view.window.Window;
+import swe4403.project.backend.*;
+import swe4403.project.view.window.EditorWindow;
+import swe4403.project.view.window.Window;
 
 import java.io.IOException;
 
@@ -12,25 +9,44 @@ public class DocumentEditor {
     Window window = new EditorWindow();
     window.setVisible(true);
 
-    String document = "<html>" +
-      "hi <b><i>Kristin!</b></i>" +
+    String document1 = "<html>" +
+      "hi <b><i>Kristin!</i></b>" +
       "<p>How are you?</p>" +
       "</html>";
 
-    DocumentBuilder builder = new DocumentBuilder();
+    String document2 = "<html>" +
+      "hi <b>Kristin!</b>" +
+      "<p>How are you?</p>" +
+      "</html>";
 
-    for(Character c : document.toCharArray()) {
-      builder.buildPart(c);
+    DocumentBuilder builder1 = new DocumentBuilder();
+    DocumentBuilder builder2 = new DocumentBuilder();
+
+    for(Character c : document1.toCharArray()) {
+      builder1.buildPart(c);
     }
 
-    TextComponent result = null;
+    for(Character c : document2.toCharArray()) {
+      builder2.buildPart(c);
+    }
+
+    TextComponent result1 = null;
+    TextComponent result2 = null;
 
     try {
-      result = builder.getResult();
-      System.out.println(result.toString());
+      result1 = builder1.getResult();
+      result2 = builder2.getResult();
     }
     catch(HtmlTagMismatchException e) {
       System.out.println("Invalid HTML document.");
+    }
+
+    if(result1 != null && result2 != null) {
+      DocumentValidator validator = DocumentValidator.getInstance();
+
+      if(validator.hasChangedText(result1, result2)) {
+        System.out.println("ERROR: Document has changed text");
+      }
     }
   }
 }

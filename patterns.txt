@@ -18,8 +18,11 @@
   - TextItemProtectionProxy
 8. Command
   - Command interface
-  - NewFile/OpenFile/Quit/SaveAsFile/SaveFile Command.
-9.
-10.
+  - NewFile/OpenFile/Quit/SaveAsFile/SaveFile Command
+9. Facade
+  - DocumentModel
+10. Iterator
+  - Iterator
+  - HtmlDocumentTreeIterator
 11.
 12.
