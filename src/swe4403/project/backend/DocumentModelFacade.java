@@ -85,6 +85,7 @@ public class DocumentModelFacade extends Observable {
 
   public void clearEditHistory() {
     lastDocumentRevision = null;
+    historyManager = new HistoryManager();
   }
 
   private TextComponent parseDocument(String document) {
