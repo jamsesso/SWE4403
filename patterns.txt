@@ -1,35 +1,80 @@
 1. Singleton
-  - Logger
-  - DocumentValidator
+  - Logger                      (Singleton)
+  - DocumentValidator           (Singleton)
+
 2. Builder
-  - MenuBarBuilder
-  - DocumentBuilder
+  - MenuBarBuilder              (Concrete builder)
+  - JMenuBar                    (Product)
+  - EditorWindow                (Director)
+  - DocumentBuilder             (Concrete builder)
+  - TextComponent               (Product)
+  - DocumentModelFacade         (Director)
+
 3. Factory method
-  - Window
+  - Window                      (Abstract creator)
+  - EditorWindow                (Concrete creator)
+  - ConsoleWindow               (Concrete creator)
+  - LayoutManager               (Abstract product)
+  - BorderLayout                (Concrete product)
+  - Dimension                   (Concrete product)
+
 4. Observer
-  - Logger (Subject)
-  - StatusBar (Observer)
-  - DocumentModelFacade (Subject)
-  - TextEditorPane (Observer)
+  - Observable                  (Abstract subject)
+  - Observer                    (Abstract observer)
+  - Logger                      (Concrete subject)
+  - StatusBar                   (Concrete observer)
+  - DocumentModelFacade         (Concrete subject)
+  - TextEditorPane              (Concrete observer)
+
 5. Decorator
-  - Opening/Closing/SelfClosing HtmlTagDecorator
+  - TextItem                    (Component)
+  - TextItemDecorator           (Abstract decorator)
+  - SelfClosingHtmlTagDecorator (Concrete decorator)
+  - OpeningHtmlTagDecorator     (Concrete decorator)
+  - ClosingHtmlTagDecorator     (Concrete decorator)
+
 6. Composite
-  - TextComponent/TextComposite/TextItem
+  - TextComponent               (Component)
+  - TextComposite               (Composite)
+  - TextItem                    (Leaf)
+  - DocumentBuilder             (Client)
+  - DocumentValidator           (Client)
+
 7. Proxy
-  - ProxyPolicy
-  - TextItemProtectionProxy
+  - TextItemProtectionProxy     (Proxy)
+  - TextComponent               (Subject)
+  - TextItem                    (Real subject)
+
 8. Command
-  - Command interface
-  - NewFile/OpenFile/Quit/SaveAsFile/SaveFile Command
+  - Command                     (Command)
+  - NewFileCommand              (Concrete command)
+  - OpenFileCommand             (Concrete command)
+  - QuitCommand                 (Concrete command)
+  - RedoCommand                 (Concrete command)
+  - SaveAsFileCommand           (Concrete command)
+  - SaveFileCommand             (Concrete command)
+  - UndoCommand                 (Concrete command)
+  - ShowHtmlTagsCommand         (Concrete command)
+  - HideHtmlTagsCommand         (Concrete command)
+  - EditorWindow                (Client)
+  - ActionListener              (Invoker)
+  - DocumentModelFacade         (Receiver)
+
 9. Facade
-  - DocumentModel
+  - DocumentModelFacade         (Facade)
+  - swe4403.project.backend.*   (Subsystem classes)
+
 10. Iterator
-  - Iterator
-  - HtmlDocumentTreeIterator
+  - Iterator                    (Iterator)
+  - HtmlDocumentTreeIterator    (Concrete iterator)
+  - TextComponent               (Concrete aggregate)
+
 11. Memento
-  - DocumentMemento
-  - DocumentModelFacade (Caretaker)
+  - DocumentMemento             (Memento)
+  - HistoryManager              (Caretaker)
+  - DocumentModelFacade         (Originator)
+
 12. Visitor
-  - HtmlTreeVisitor (Visitor)
-  - ReadOnlyTextItemVisitor (Concrete visitor)
-  - TextComponent (Element)
+  - HtmlTreeVisitor             (Visitor)
+  - ReadOnlyTextItemVisitor     (Concrete visitor)
+  - TextComponent               (Element)

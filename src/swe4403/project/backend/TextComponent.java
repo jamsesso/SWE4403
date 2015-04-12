@@ -34,4 +34,8 @@ abstract public class TextComponent {
   public Integer numChildren() {
     return 0;
   }
+
+  public Iterator<TextComponent> createIterator() {
+    return new HtmlTreeIterator(this);
+  }
 }

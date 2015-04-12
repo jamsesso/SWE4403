@@ -85,7 +85,7 @@ public class DocumentValidator {
   }
 
   private List<TextComponent> getReadOnlyComponents(TextComponent root) {
-    Iterator<TextComponent> rootIterator = new HtmlTreeIterator(root);
+    Iterator<TextComponent> rootIterator = root.createIterator();
     ReadOnlyTextItemVisitor visitor = new ReadOnlyTextItemVisitor();
 
     // Find all of the plaintext elements in the original document.

@@ -25,7 +25,6 @@ public class EditorWindow extends Window {
 
     menuBarBuilder
       .addMenu("File")
-      .addItem("New")
       .addItem("Open...", new OpenFileCommand(this, documentModel), KeyEvent.VK_O)
       .addItem("Save", new SaveFileCommand(this, documentModel), KeyEvent.VK_S)
       .addItem("Save As...")
