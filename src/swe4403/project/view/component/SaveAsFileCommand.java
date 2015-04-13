@@ -1,6 +1,8 @@
 package swe4403.project.view.component;
 
+import swe4403.project.backend.DocumentEditException;
 import swe4403.project.backend.DocumentModelFacade;
+import swe4403.project.backend.HtmlTagMismatchException;
 import swe4403.project.backend.Logger;
 import swe4403.project.view.window.Window;
 
@@ -34,7 +36,23 @@ public class SaveAsFileCommand implements Command {
           Boolean created = saveToFile.createNewFile();
 
           if(created) {
-            FileWriter fileWriter = new FileWriter(saveLocation);
+            String document;
+
+            try {
+              document = facade.getDocument();
+            }
+            catch(HtmlTagMismatchException e) {
+              logger.log(SaveFileCommand.class, "Unable to save file because the HTML was not well formed: " + e.getMessage());
+              JOptionPane.showMessageDialog(window, "Cannot save file: The HTML is not well formed.");
+              return;
+            }
+            catch(DocumentEditException e) {
+              logger.log(SaveFileCommand.class, "Unable to save file because the text was changed: " + e.getMessage());
+              JOptionPane.showMessageDialog(window, "Cannot save file: Only HTML tags can be edited, not regular text.");
+              return;
+            }
+
+            FileWriter fileWriter = new FileWriter(saveToFile);
             fileWriter.write(document);
             fileWriter.close();
             logger.log(SaveFileCommand.class, "File saved successfully!");

@@ -77,4 +77,6 @@
 12. Visitor
   - HtmlTreeVisitor             (Visitor)
   - ReadOnlyTextItemVisitor     (Concrete visitor)
+  - HideHtmlTagVisitor          (Concrete visitor)
+  - ShowHtmlTagVisitor          (Concrete visitor)
   - TextComponent               (Element)
