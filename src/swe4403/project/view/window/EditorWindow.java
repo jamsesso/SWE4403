@@ -18,7 +18,11 @@ public class EditorWindow extends Window {
 
     // Set up the status bar.
     getContentPane().add(new EditorStatusBar(), BorderLayout.SOUTH);
-    logger.log(EditorWindow.class, "Editor is ready.");
+
+    // Set up the editor.
+    JTextPane textPane = new TextEditorPane(documentModel);
+    JScrollPane scrollTextEditor = new JScrollPane(textPane);
+    getContentPane().add(scrollTextEditor, BorderLayout.CENTER);
 
     // Build the menu bar.
     MenuBarBuilder menuBarBuilder = new MenuBarBuilder();
@@ -27,21 +31,17 @@ public class EditorWindow extends Window {
       .addMenu("File")
       .addItem("Open...", new OpenFileCommand(this, documentModel), KeyEvent.VK_O)
       .addItem("Save", new SaveFileCommand(this, documentModel), KeyEvent.VK_S)
-      .addItem("Save As...")
+      .addItem("Save As...", new SaveAsFileCommand(this, documentModel))
       .addItem("Quit", new QuitCommand(), KeyEvent.VK_Q)
       .addMenu("Edit")
       .addItem("Undo", new UndoCommand(documentModel), KeyEvent.VK_Z)
       .addItem("Redo", new RedoCommand(documentModel), KeyEvent.VK_Y)
       .addMenu("View")
-      .addItem("Show HTML Tags")
-      .addItem("Hide HTML Tags");
+      .addItem("Show HTML Tags", new ShowHtmlTagsCommand(documentModel, textPane))
+      .addItem("Hide HTML Tags", new HideHtmlTagsCommand(documentModel, textPane));
 
     setJMenuBar(menuBarBuilder.getResult());
-
-    // Set up the editor.
-    JTextPane textPane = new TextEditorPane(documentModel);
-    JScrollPane scrollTextEditor = new JScrollPane(textPane);
-    getContentPane().add(scrollTextEditor, BorderLayout.CENTER);
+    logger.log(EditorWindow.class, "Editor is ready.");
   }
 
   @Override

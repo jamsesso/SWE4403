@@ -11,6 +11,7 @@ public class DocumentModelFacade extends Observable {
   private DocumentValidator documentValidator = DocumentValidator.getInstance();
   private File saveLocation;
   private HistoryManager historyManager = new HistoryManager();
+  private Boolean isShowingHtmlTags = true;
 
   public DocumentModelFacade() {
     update("");
@@ -50,7 +51,22 @@ public class DocumentModelFacade extends Observable {
   }
 
   public String getDocumentState() {
-    return state;
+    if(isShowingHtmlTags) {
+      return state;
+    }
+    else {
+      // In order to hide HTML tags, we need to parse the document.
+      TextComponent htmlTree = parseDocument(state);
+      Iterator<TextComponent> iterator = htmlTree.createIterator();
+      HtmlTreeVisitor visitor = new HideHtmlTagVisitor();
+
+      for(iterator.first(); !iterator.isDone(); iterator.next()) {
+        TextComponent currentItem = iterator.currentItem();
+        currentItem.accept(visitor);
+      }
+
+      return htmlTree.toString();
+    }
   }
 
   public File getFileSaveLocation() {
@@ -86,6 +102,18 @@ public class DocumentModelFacade extends Observable {
   public void clearEditHistory() {
     lastDocumentRevision = null;
     historyManager = new HistoryManager();
+  }
+
+  public void hideHtmlTags() {
+    isShowingHtmlTags = false;
+    setChanged();
+    notifyObservers();
+  }
+
+  public void showHtmlTags() {
+    isShowingHtmlTags = true;
+    setChanged();
+    notifyObservers();
   }
 
   private TextComponent parseDocument(String document) {

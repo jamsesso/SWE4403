@@ -42,7 +42,8 @@ public class SaveFileCommand implements Command {
     }
 
     if(saveLocation == null || !saveLocation.canWrite()) {
-      logger.log(SaveFileCommand.class, "TODO: Open save as dialog.");
+      Command saveAs = new SaveAsFileCommand(window, facade);
+      saveAs.execute();
     }
     else {
       try {
